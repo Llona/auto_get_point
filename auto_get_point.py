@@ -93,7 +93,7 @@ def renew_shopee_cookies_file(drivers):
 def load_cookies(drivers):
     # login to Shopee first for load cookies
     drivers.delete_all_cookies()
-    drivers.get(url)
+    drivers.get(coin_url)
     time.sleep(2)
 
     with open('cookies.json', 'r', encoding='utf-8') as f:
