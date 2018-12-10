@@ -11,11 +11,15 @@ url = r'https://shopee.tw/'
 coin_url = r'https://shopee.tw/shopee-coins'
 username = ''
 password = ''
+point_x = 428
+point_y = 591
 
 option = webdriver.ChromeOptions()
+# option = webdriver.FirefoxOptions()
 # option.add_argument('headless')
 option.add_argument("--start-maximized")
 driver = webdriver.Chrome(chrome_options=option)
+# driver = webdriver.Firefox(firefox_options=option)
 
 
 def start(options):
@@ -28,24 +32,34 @@ def start(options):
 
     if options == 1:
         load_cookies(driver)
-        time.sleep(10)
+        time.sleep(1)
         driver.get(coin_url)
-        time.sleep(10)
-        print(driver.page_source)
+        time.sleep(5)
+        # js = "var q=document.documentElement.scrollTop=10000"
+        # driver.execute_script(js)
+        # js = "var q=document.documentElement.scrollTop=0"
+        # driver.execute_script(js)
+        # time.sleep(1)
+        # pyautogui.moveTo(428, 591, duration=0.25)
+        pyautogui.click(point_x, point_y, button='left')
+        # print(driver.page_source)
+        # with open('temp.txt', 'w', encoding='utf-8') as f:
+        #     f.write(driver.page_source)
         # driver.refresh()
         # time.sleep(30)
         # click get coin point button
         # __layout > div > section > div > div.top > div.check-box > div.check-action > div:nth-child(2) > div
         # element = driver.find_element_by_xpath("//div[@id='__layout']/div/section/div/div[1]/div[1]/div[3]/div[2]/div")
-        element = driver.find_element_by_class_name("check-action")
+        # element = driver.find_element_by_class_name("login-check-btn")
         # element = driver.find_element_by_css_selector("div.login-check-btn")
         # element = driver.find_element_by_tag_name("div data-v-3715bb7c")
-        print(element)
-
-        element.click()
-
-        time.sleep(30)
+        # print(element)
+        #
+        # element.click()
+        #
+        # time.sleep(30)
         # login(driver)
+        driver.quit()
     elif options == 2:
         login(driver)
         renew_shopee_cookies_file(driver)
@@ -93,7 +107,7 @@ def renew_shopee_cookies_file(drivers):
 def load_cookies(drivers):
     # login to Shopee first for load cookies
     drivers.delete_all_cookies()
-    drivers.get(coin_url)
+    drivers.get(url)
     time.sleep(2)
 
     with open('cookies.json', 'r', encoding='utf-8') as f:
@@ -110,8 +124,8 @@ def load_cookies(drivers):
             'secure': cookie['secure'],
             'name': cookie['name'],
             'value': cookie['value'],
-            'path': '/',
-            'expiry': expiry
+            'path': '/'
+            # 'expiry': expiry
             # 'expires': cookie['expiry']
         })
     # print(list_cookies)
